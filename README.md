@@ -116,3 +116,11 @@ Basic knowledge of Node helps
 Who this course is for:
 People that want to learn backend web development with Node
 React/Vue/Angular Frontend devs that want to be full stack devs
+
+### Installatioons 
+
+* NodeMon
+```$ npm install ---save-dev nodemon```
+```$ npm start```
+
+Use `node --trace-warnings ...` to show where the warning was created
