@@ -7,11 +7,7 @@ const todos = [
   { id: 5, name: 'Todo Five' },
 ];
 const server = http.createServer((req, res) => {
-  res.writeHead(200, {
-    'Content-Type': 'application/json',
-    'X-Powered-By': 'Node.js',
-  });
-
+  const { method, url } = req;
   let body = [];
 
   req
@@ -20,16 +16,36 @@ const server = http.createServer((req, res) => {
     })
     .on('end', () => {
       body = Buffer.concat(body).toString();
-      console.log(body);
-    });
 
-  res.end(
-    JSON.stringify({
-      success: true,
-      error: 'Server returned - check mail',
-      data: todos,
-    })
-  );
+      let status = 404;
+      const response = {
+        success: false,
+        data: null,
+      };
+      if (method === 'GET' && url === '/todos') {
+        status = 200;
+        response.success = true;
+        response.data = todos;
+      } else if (method === 'POST' && url === '/todos') {
+        const { id, text } = JSON.parse(body);
+
+        if (!id || !text) {
+          status = 400;
+          response.error = 'Invalid inputs';
+        } else {
+          todos.push({ id, text });
+          (status = 201), (response.success = true);
+          response.data = todos;
+        }
+      }
+
+      res.writeHead(status, {
+        'Content-Type': 'application/json',
+        'X-Powered-By': 'Node.js',
+      });
+
+      res.end(JSON.stringify(response));
+    });
 });
 
 const PORT = 8000;
