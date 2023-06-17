@@ -7,17 +7,29 @@ const todos = [
   { id: 5, name: 'Todo Five' },
 ];
 const server = http.createServer((req, res) => {
-  res.writeHead(404, {
+  res.writeHead(200, {
     'Content-Type': 'application/json',
     'X-Powered-By': 'Node.js',
-  }),
-    res.end(
-      JSON.stringify({
-        success: false,
-        error: 'Server returned - check mail',
-        data: null,
-      })
-    );
+  });
+
+  let body = [];
+
+  req
+    .on('data', (chunk) => {
+      body.push(chunk);
+    })
+    .on('end', () => {
+      body = Buffer.concat(body).toString();
+      console.log(body);
+    });
+
+  res.end(
+    JSON.stringify({
+      success: true,
+      error: 'Server returned - check mail',
+      data: todos,
+    })
+  );
 });
 
 const PORT = 8000;
