@@ -1,0 +1,19 @@
+{
+  "name": "nodehttp",
+  "version": "1.0.0",
+  "description": "NodeHTTP ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ConnectedDot/Node-JS-API.git"
+  },
+  "author": "Theophilus Samuel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ConnectedDot/Node-JS-API/issues"
+  },
+  "homepage": "https://github.com/ConnectedDot/Node-JS-API#readme"
+}
