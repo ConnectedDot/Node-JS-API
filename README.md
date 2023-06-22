@@ -1,4 +1,4 @@
-# ABOUT BOOTCAMP
+# BOOTCAMP
 
 ## DevCamper Backend API Specifications
 
