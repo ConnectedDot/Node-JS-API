@@ -1,40 +1,45 @@
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 
-// Load ENV
+// Load env vars
 dotenv.config({ path: './config/config.env' });
+
+// Connect to database
+// connectDB();
+
+// Route files
+const bootcamps = require('./routes/bootcamps');
 
 const app = express();
 
-app.get('/api/v1/bootcamps', (req, res) => {
-  res.status(200).json({ success: true, message: 'Show all bootcamps' });
-});
+// Body parser
+app.use(express.json());
 
-app.get('/api/v1/bootcamps/:id', (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, messsage: `Show bootcamp ${req.params.id}` });
-});
+// Cookie parser
+app.use(cookieParser());
 
-app.post('/api/v1/bootcamps/:id', (req, res) => {
-  res.status(200).json({ success: true, message: 'Create new bootcamp' });
-});
+// Mount routers
+app.use('/api/v1/bootcamps', bootcamps);
+app.use('/api/v1/courses', courses);
+app.use('/api/v1/auth', auth);
+app.use('/api/v1/users', users);
+app.use('/api/v1/reviews', reviews);
 
-app.put('/api/v1/bootcamps/:id', (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, messsage: `Update bootcamp ${req.params.id}` });
-});
-
-app.delete('/api/v1/bootcamps/:id', (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, messsage: `Delete bootcamp ${req.params.id}` });
-});
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(
+const server = app.listen(
   PORT,
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+  console.log(
+    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
+  )
 );
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (err, promise) => {
+  console.log(`Error: ${err.message}`.red);
+  // Close server & exit process
+  // server.close(() => process.exit(1));
+});
